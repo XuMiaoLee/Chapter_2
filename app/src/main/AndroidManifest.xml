@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xyj.chapter_2">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -10,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".messenger.MessengerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +21,8 @@
             </intent-filter>
         </activity>
 
-        <!--指定多进程模式
+        <!--
+        指定多进程模式
         :remote（冒号代表属于当前应用的私用进程）
         .属于全局进程，其他应用通过ShareUID方式可以和它跑在一个进程中
         -->
@@ -27,7 +31,15 @@
             android:process=":remote" />
         <activity
             android:name=".ThirdActivity"
-            android:process=".remote"></activity>
+            android:process=".remote" />
+
+        <service
+            android:name=".messenger.MessengerService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":remote"/>
+
+        <!--<activity android:name=".messenger.MessengerActivity"></activity>-->
     </application>
 
 </manifest>

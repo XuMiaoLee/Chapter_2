@@ -20,19 +20,14 @@ object MyUtils {
         val am = cxt
                 .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val runningApps = am.runningAppProcesses ?: return null
-        for (procInfo in runningApps) {
-            if (procInfo.pid == pid) {
-                return procInfo.processName
-            }
-        }
-        return null
+        return runningApps
+                .firstOrNull { it.pid == pid }
+                ?.processName
     }
 
     fun close(closeable: Closeable?) {
         try {
-            if (closeable != null) {
-                closeable!!.close()
-            }
+            closeable?.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
