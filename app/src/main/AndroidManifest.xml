@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".messenger.MessengerActivity">
+        <activity android:name=".aidl.BookManagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,13 +33,20 @@
             android:name=".ThirdActivity"
             android:process=".remote" />
 
+        <activity android:name=".MainActivity" />
+
+        <!--Messenger例子-->
+        <activity android:name=".messenger.MessengerActivity" />
+
         <service
             android:name=".messenger.MessengerService"
-            android:enabled="true"
-            android:exported="false"
-            android:process=":remote"/>
+            android:process=":remote" />
 
-        <!--<activity android:name=".messenger.MessengerActivity"></activity>-->
+        <!-- <activity android:name=".messenger.MessengerActivity"></activity> -->
+        <service
+            android:name=".aidl.BookManagerService"
+            android:process=":remote" />
+
     </application>
 
 </manifest>

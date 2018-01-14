@@ -4,24 +4,24 @@ import android.os.Parcel
 import android.os.Parcelable
 
 /**
- * Created by xuyongjun on 2018/1/10.
+ * Created by xuyongjun on 2018/1/14.
  */
-class Book() : Parcelable {
-    override fun writeToParcel(parcel: Parcel?, flags: Int) {
-        parcel?.writeString(bookName)
-        parcel?.writeInt(bookId!!)
+class Book(private var bookId: Int, private var bookName: String) : Parcelable {
+    constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readString())
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(bookId)
+        parcel.writeString(bookName)
     }
 
     override fun describeContents(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return 0
     }
 
-    var bookId: Int? = null
-    var bookName: String? = null
-
-    constructor(parcel: Parcel) : this() {
-        bookId = parcel.readValue(Int::class.java.classLoader) as? Int
-        bookName = parcel.readString()
+    override fun toString(): String {
+        return "Book(bookId=$bookId, bookName='$bookName')"
     }
 
     companion object CREATOR : Parcelable.Creator<Book> {
