@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xyj.chapter_2">
+          package="com.xyj.chapter_2">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 添加BookManagerService访问权限 -->
+    <permission
+        android:name="com.xyj.chapter_2.permission.ACCESS_BOOK_SERVICE"
+        android:protectionLevel="normal"/>
+
+    <!-- 声明BookProvider权限,外界应用想要调用该Provider必须声明该权限 -->
+    <permission
+        android:name="com.xyj.PROVIDER"
+        android:protectionLevel="normal"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--声明访问BookManagerService的权限-->
+    <uses-permission android:name="com.xyj.chapter_2.permission.ACCESS_BOOK_SERVICE"/>
 
     <application
         android:name=".App"
@@ -13,11 +26,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".aidl.BookManagerActivity">
+        <activity android:name=".provider.ProviderActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -28,24 +41,32 @@
         -->
         <activity
             android:name=".SecondActivity"
-            android:process=":remote" />
+            android:process=":remote"/>
         <activity
             android:name=".ThirdActivity"
-            android:process=".remote" />
+            android:process=".remote"/>
+        <activity android:name=".MainActivity"/>
 
-        <activity android:name=".MainActivity" />
+        <!-- Messenger例子 -->
+        <activity android:name=".messenger.MessengerActivity"/>
 
-        <!--Messenger例子-->
-        <activity android:name=".messenger.MessengerActivity" />
+        <!--aidl例子-->
+        <activity android:name=".aidl.BookManagerActivity"/>
 
         <service
             android:name=".messenger.MessengerService"
-            android:process=":remote" />
+            android:process=":remote"/>
 
         <!-- <activity android:name=".messenger.MessengerActivity"></activity> -->
         <service
             android:name=".aidl.BookManagerService"
-            android:process=":remote" />
+            android:process=":remote"/>
+
+        <provider
+            android:name=".provider.BookProvider"
+            android:authorities="${applicationId}.book.provider"
+            android:permission="com.xyj.PROVIDER"
+            android:process=":remote"/>
 
     </application>
 

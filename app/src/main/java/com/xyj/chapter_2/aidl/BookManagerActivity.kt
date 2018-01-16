@@ -7,12 +7,23 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.xyj.chapter_2.R
 import com.xyj.chapter_2.utils.LogUtils
 
 class BookManagerActivity : AppCompatActivity() {
 
     private lateinit var mRemoteBookManager: IBookManager
+
+    private val mDeathRecipient: IBinder.DeathRecipient = object : IBinder.DeathRecipient {
+        override fun binderDied() {
+            // 该方法运行在binder线程池中-Binder:25080_1
+            LogUtils.d("binder died thread: ${Thread.currentThread().name}")
+            mRemoteBookManager.asBinder().unlinkToDeath(this, 0)
+            //reconnection
+        }
+
+    }
 
     private val mConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -28,9 +39,14 @@ class BookManagerActivity : AppCompatActivity() {
             LogUtils.d("query book list: $bookList")
             //注册监听
             mRemoteBookManager.registerListener(mOnNewBookArrivedListener)
+            //添加binder死亡监听
+            service?.linkToDeath(mDeathRecipient, 0)
         }
 
-        override fun onServiceDisconnected(name: ComponentName?) = Unit
+        override fun onServiceDisconnected(name: ComponentName?) {
+            //main线程
+            LogUtils.d("onServiceDisconnected thread : ${Thread.currentThread().name} ")
+        }
 
     }
 
@@ -45,6 +61,10 @@ class BookManagerActivity : AppCompatActivity() {
 
         val intent = Intent(this, BookManagerService::class.java)
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    fun onButtonClick(v: View) {
+        mRemoteBookManager.bookList
     }
 
     override fun onDestroy() {
