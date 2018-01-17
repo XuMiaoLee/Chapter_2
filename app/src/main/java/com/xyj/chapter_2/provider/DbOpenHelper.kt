@@ -22,7 +22,7 @@ class DbOpenHelper(var ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, DB_V
     }
 
     private val CREATE_BOOK_TABLE = "CREATE TABLE IF NOT EXISTS $BOOK_TABLE_NAME (_id INTEGER PRIMARY KEY,name TEXT)"
-    private val CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS $USER_TABLE_NAME (_id INTEGER PRIMARY KEY,name TEXT,sex INT"
+    private val CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS $USER_TABLE_NAME (_id INTEGER PRIMARY KEY,name TEXT,sex INT)"
 
 
     override fun onCreate(db: SQLiteDatabase?) {

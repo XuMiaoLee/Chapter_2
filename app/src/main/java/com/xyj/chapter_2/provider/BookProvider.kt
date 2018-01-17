@@ -75,21 +75,25 @@ class BookProvider : ContentProvider() {
         mDB.execSQL("INSERT INTO ${DbOpenHelper.BOOK_TABLE_NAME} VALUES (3,'HTML5')")
 
         mDB.execSQL("INSERT INTO ${DbOpenHelper.USER_TABLE_NAME} VALUES (1,'jake',0)")
-        mDB.execSQL("INSERT INTO ${DbOpenHelper.USER_TABLE_NAME} VALUES (2,'tom'),1")
+        mDB.execSQL("INSERT INTO ${DbOpenHelper.USER_TABLE_NAME} VALUES (2,'tom',1)")
     }
 
     override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
         LogUtils.d("update")
         val tableName = getTableName(uri!!) ?: throw IllegalArgumentException("Unsupported uri : $uri")
-        mDB.update(tableName, values, selection, selectionArgs)
-        return 0
+        val count = mDB.update(tableName, values, selection, selectionArgs)
+        if (count > 0)
+            context.contentResolver.notifyChange(uri,null)
+        return count
     }
 
     override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
         LogUtils.d("delete")
         val tableName = getTableName(uri!!) ?: throw IllegalArgumentException("Unsupported uri : $uri")
-        mDB.delete(tableName, selection, selectionArgs)
-        return 0
+        val count = mDB.delete(tableName, selection, selectionArgs)
+        if (count > 0)
+            context.contentResolver.notifyChange(uri, null)
+        return count
     }
 
     override fun getType(uri: Uri?): String? {

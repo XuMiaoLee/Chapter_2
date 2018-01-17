@@ -15,8 +15,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!--声明访问BookManagerService的权限-->
+    <!-- 声明访问BookManagerService的权限 -->
     <uses-permission android:name="com.xyj.chapter_2.permission.ACCESS_BOOK_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".App"
@@ -26,7 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".provider.ProviderActivity">
+        <activity android:name=".socket.TCPClientActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -50,23 +52,32 @@
         <!-- Messenger例子 -->
         <activity android:name=".messenger.MessengerActivity"/>
 
-        <!--aidl例子-->
+        <!-- aidl例子 -->
         <activity android:name=".aidl.BookManagerActivity"/>
 
         <service
             android:name=".messenger.MessengerService"
             android:process=":remote"/>
 
+
         <!-- <activity android:name=".messenger.MessengerActivity"></activity> -->
         <service
             android:name=".aidl.BookManagerService"
             android:process=":remote"/>
+
+        <!--ContentProvider例子-->
+        <activity android:name=".provider.ProviderActivity"/>
 
         <provider
             android:name=".provider.BookProvider"
             android:authorities="${applicationId}.book.provider"
             android:permission="com.xyj.PROVIDER"
             android:process=":remote"/>
+
+        <service
+            android:name=".socket.TCPServerService"
+            android:process=":remote">
+        </service>
 
     </application>
 
