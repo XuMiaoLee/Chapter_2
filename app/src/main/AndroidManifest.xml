@@ -28,7 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".socket.TCPClientActivity">
+        <activity android:name=".binderpool.BinderPoolActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -59,13 +59,12 @@
             android:name=".messenger.MessengerService"
             android:process=":remote"/>
 
-
         <!-- <activity android:name=".messenger.MessengerActivity"></activity> -->
         <service
             android:name=".aidl.BookManagerService"
             android:process=":remote"/>
 
-        <!--ContentProvider例子-->
+        <!-- ContentProvider例子 -->
         <activity android:name=".provider.ProviderActivity"/>
 
         <provider
@@ -74,8 +73,19 @@
             android:permission="com.xyj.PROVIDER"
             android:process=":remote"/>
 
+
+        <!--Socket例子-->
+        <activity android:name=".socket.TCPClientActivity"/>
+
         <service
             android:name=".socket.TCPServerService"
+            android:process=":remote">
+        </service>
+
+        <!--Binder连接池-->
+
+        <service
+            android:name=".binderpool.BinderPoolService"
             android:process=":remote">
         </service>
 
