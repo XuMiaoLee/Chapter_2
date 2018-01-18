@@ -10,7 +10,6 @@ class BinderPoolActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_binder_pool)
-
         //这边要开线程处理，因为BinderPool中用了CountDownLatch，可能会阻塞UI线程
         Thread {
             val binderPool = BinderPool.getInstance(this)
